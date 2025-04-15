@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import { useForm } from "@inertiajs/vue3";
 let props = defineProps(["showModal"]);
 let dialog = ref(null);
 const openModal = () => {
@@ -9,6 +10,17 @@ const closeModal = () => {
     dialog.value.close();
 };
 defineExpose({ openModal });
+
+const form = useForm({
+    name: "",
+    btw: "",
+    address: "",
+    add_btw: "",
+});
+
+const submit = () => {
+    form.post(route("clients.store"));
+};
 </script>
 
 <template>
@@ -25,7 +37,11 @@ defineExpose({ openModal });
             >
                 <i class="pi pi-times-circle" style="font-size: 1.5rem"></i>
             </button>
-            <div class="w-full p-10 space-y-3 flex flex-col justify-between">
+            <form
+                method="post"
+                @submit.prevent="submit"
+                class="w-full p-10 space-y-3 flex flex-col justify-between"
+            >
                 <p class="font-bold text-primary mt-8 text-lg">
                     Add client's information below:
                 </p>
@@ -33,6 +49,7 @@ defineExpose({ openModal });
                     <div class="flex items-center justify-between w-full">
                         <label for="client_name">Client's Name:</label>
                         <input
+                            v-model="form.name"
                             type="text"
                             class="bg-black/10 px-4 py-2 rounded w-2/3"
                             placeholder="Paul Mheiner"
@@ -42,6 +59,7 @@ defineExpose({ openModal });
                         <label for="client_bwt">Client's BWT number:</label>
                         <input
                             type="text"
+                            v-model="form.btw"
                             class="bg-black/10 px-4 py-2 rounded w-2/3"
                             placeholder="123.045.123"
                         />
@@ -50,6 +68,7 @@ defineExpose({ openModal });
                         <label for="client_address">Client's Address:</label>
                         <input
                             type="text"
+                            v-model="form.address"
                             class="bg-black/10 px-4 py-2 rounded w-2/3"
                             placeholder="Weertstraat 15, 3800 Sint-Truiden"
                         />
@@ -60,7 +79,7 @@ defineExpose({ openModal });
                         >
                             <input
                                 type="checkbox"
-                                value=""
+                                v-model="form.add_btw"
                                 class="sr-only peer"
                             />
                             <div
@@ -74,11 +93,12 @@ defineExpose({ openModal });
                     </div>
                 </div>
                 <button
+                    type="submit"
                     class="bg-primary self-end text-white hover:bg-black/50 rounded-2xl px-6 py-2 cursor-pointer"
                 >
                     Save Client
                 </button>
-            </div>
+            </form>
         </div>
     </dialog>
 </template>
