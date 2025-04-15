@@ -15,11 +15,10 @@ class ClientController extends Controller
     public function store(Request $request){
         $client = Client::create([
         'name' => $request->name,
-        'btw' => $request->btw,
+        'btw_number' => $request->btw_number,
         'address' => $request->address,
         'add_btw' => $request->add_btw
         ]);
-        var_dump(2);
-        return response()->json($client);
+        return redirect()->back();
     }
 }

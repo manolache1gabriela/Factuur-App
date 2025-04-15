@@ -2,6 +2,7 @@
 import ClientModal from "../components/ClientModal.vue";
 import { ref, onMounted } from "vue";
 let showModal = ref(false);
+const props = defineProps(["clients"]);
 let rows = ref(1);
 const addRow = () => {
     rows.value += 1;
@@ -10,20 +11,6 @@ const openModal = () => {
     modal.value.openModal();
 };
 let modal = ref(null);
-let clients = ref(null);
-
-let getClients = async () => {
-    try {
-        const response = await fetch("http://factuur-app.test/clients");
-        let data = await response.json();
-        clients.value = data;
-    } catch (error) {
-        console.log(error);
-    }
-};
-onMounted(() => {
-    getClients();
-});
 </script>
 
 <template>
@@ -64,9 +51,9 @@ onMounted(() => {
                         >
                             <option value="empty" selected></option>
                             <option
-                                v-for="client in clients"
+                                v-for="client in props.clients"
                                 :key="client.id"
-                                value="client.name"
+                                :value="client.name"
                             >
                                 {{ client.name }}
                             </option>

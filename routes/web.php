@@ -2,15 +2,17 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Client;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
-});
+    $clients = Client::all();
+    return Inertia::render('Welcome', ['clients' => $clients]);
+})->name('home');
 Route::get('/clients', [ClientController::class, 'index']);
-Route::post('/clients', [ClientController::class, 'store']);
+Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');

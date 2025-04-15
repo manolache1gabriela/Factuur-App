@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('btw_number')->unique();
+            $table->string('btw_number')->unique()->nullable();
             $table->boolean('add_btw')->default(false);
             $table->string('address');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
 let props = defineProps(["showModal"]);
 let dialog = ref(null);
 const openModal = () => {
@@ -13,13 +13,20 @@ defineExpose({ openModal });
 
 const form = useForm({
     name: "",
-    btw: "",
+    btw_number: "",
     address: "",
     add_btw: "",
 });
 
 const submit = () => {
-    form.post(route("clients.store"));
+    router.post(route("clients.store"), form, {
+        onSuccess: () => {
+            closeModal();
+        },
+        onError: () => {
+            console.log("error");
+        },
+    });
 };
 </script>
 
@@ -59,7 +66,7 @@ const submit = () => {
                         <label for="client_bwt">Client's BWT number:</label>
                         <input
                             type="text"
-                            v-model="form.btw"
+                            v-model="form.btw_number"
                             class="bg-black/10 px-4 py-2 rounded w-2/3"
                             placeholder="123.045.123"
                         />
