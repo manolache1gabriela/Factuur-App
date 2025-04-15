@@ -6,6 +6,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    scrollbar-width: none;
+}
 html {
     min-height: 100dvh;
 }

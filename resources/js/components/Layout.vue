@@ -1,16 +1,48 @@
 <script setup>
+import { useForm, router } from "@inertiajs/vue3";
 import ClientModal from "../components/ClientModal.vue";
-import { ref, onMounted } from "vue";
-let showModal = ref(false);
+import InvoiceRow from "../components/InvoiceRow.vue";
+import { ref } from "vue";
 const props = defineProps(["clients"]);
-let rows = ref(1);
+let showModal = ref(false);
+let modal = ref(null);
+let rowsData = ref([
+    {
+        date: "",
+        service_materials: "",
+        quantity: "",
+        price: "",
+    },
+]);
+let data = {
+    date: "",
+    service_materials: "",
+    quantity: "",
+    price: "",
+};
+
+let form = {
+    currentClient: 0,
+    rows: rowsData.value,
+};
+
+const print = () => {
+    router.post(route("invoice.store"), form, {
+        onSuccess: () => {},
+        onError: () => {},
+    });
+};
+
 const addRow = () => {
-    rows.value += 1;
+    rowsData.value.push(Object.assign({}, data));
 };
 const openModal = () => {
     modal.value.openModal();
 };
-let modal = ref(null);
+
+const selectCurrentClient = (e) => {
+    form.currentClient = e.target.value;
+};
 </script>
 
 <template>
@@ -45,6 +77,7 @@ let modal = ref(null);
                     <div class="space-x-2">
                         <span class="font-bold text-lg"> Clients: </span>
                         <select
+                            @change="selectCurrentClient"
                             name="Clients"
                             id="clients"
                             class="px-6 py-2 bg-black/30 rounded-full text-white text-sm"
@@ -53,7 +86,7 @@ let modal = ref(null);
                             <option
                                 v-for="client in props.clients"
                                 :key="client.id"
-                                :value="client.name"
+                                :value="client.id"
                             >
                                 {{ client.name }}
                             </option>
@@ -61,6 +94,7 @@ let modal = ref(null);
                     </div>
                     <div>
                         <button
+                            @click="print"
                             class="bg-primary hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-10 rounded-full uppercase cursor-pointer"
                         >
                             Print
@@ -70,43 +104,12 @@ let modal = ref(null);
                 <div
                     class="bg-black/10 border-2 overflow-scroll p-7 border-black/50 shadow-2xl/30 rounded-xl h-4/5 w-full flex flex-col items-center space-y-4"
                 >
-                    <div
-                        class="w-full flex items-center justify-between"
-                        v-for="(row, index) in rows"
+                    <InvoiceRow
+                        v-for="(row, index) in rowsData"
                         :key="index"
-                    >
-                        <span class="mr-2">
-                            {{ row }}
-                        </span>
-                        <input
-                            class="bg-black/20 rounded-lg px-5 py-2"
-                            type="date"
-                            placeholder="Date"
-                            name="date"
-                        />
-                        <input
-                            class="bg-black/20 rounded-lg px-5 py-2"
-                            type="text"
-                            placeholder="Service/Materials"
-                            name="service_materials"
-                        />
-                        <input
-                            class="bg-black/20 rounded-lg px-5 py-2"
-                            type="number"
-                            placeholder="Quantity"
-                            name="quantity"
-                            min="0.0"
-                            step="0.5"
-                        />
-                        <input
-                            class="bg-black/20 rounded-lg px-5 py-2"
-                            type="number"
-                            placeholder="Price (€)"
-                            name="price"
-                            min="0.00"
-                            step="0.01"
-                        />
-                    </div>
+                        :index="index"
+                        :row="row"
+                    />
                     <div
                         class="w-full h-12 rounded-lg bg-stripes bg-cover bg-no-repeat opacity-30"
                     ></div>

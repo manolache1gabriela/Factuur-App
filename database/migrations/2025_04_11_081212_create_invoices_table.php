@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->integer('invoice_number')->unique();
             $table->foreignIdFor(Client::class);
             $table->json('data');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
+
+
+        DB::insert("insert into invoices (id, client_id, data, created_at, updated_at) values (2025030, 1, '', CURRENT_TIME, CURRENT_TIME);");
     }
 
     /**

@@ -16,28 +16,34 @@ class ClientSeeder extends Seeder
     {
         DB::table('clients')->insert([
             [
-            'name' => 'Calamintha',
-            'btw_number' => '748.909.383',
-            'add_btw' => true,
-            'address' => 'Eigenaarsstraat 20 bus 2, 2380 Ravels'
+                'name' => 'Dummy client',
+                'btw_number' => '999.999.999',
+                'add_btw' => true,
+                'address' => 'Eigenaarsstraat 20 bus 2, 2380 Ravels'
             ],
             [
-            'name' => 'P&O Rombouts',
-            'btw_number' => '715.794.870',
-            'add_btw' => true,
-            'address' => 'Papenvelden 16, 2370 Arendonk'
+                'name' => 'Calamintha',
+                'btw_number' => '748.909.383',
+                'add_btw' => true,
+                'address' => 'Eigenaarsstraat 20 bus 2, 2380 Ravels'
             ],
             [
-            'name' => 'TEfunderen',
-            'btw_number' => '1.015.821.216',
-            'add_btw' => true,
-            'address' => 'Eikenlaan 19, 3110 Rotselaar'
+                'name' => 'P&O Rombouts',
+                'btw_number' => '715.794.870',
+                'add_btw' => true,
+                'address' => 'Papenvelden 16, 2370 Arendonk'
             ],
             [
-            'name' => 'Patricia Perez & Pablo Romojaro',
-            'btw_number' => '',
-            'add_btw' => false,
-            'address' => 'Koekoekstraat 105,  Mol'
+                'name' => 'TEfunderen',
+                'btw_number' => '1.015.821.216',
+                'add_btw' => true,
+                'address' => 'Eikenlaan 19, 3110 Rotselaar'
+            ],
+            [
+                'name' => 'Patricia Perez & Pablo Romojaro',
+                'btw_number' => '',
+                'add_btw' => false,
+                'address' => 'Koekoekstraat 105,  Mol'
             ]
         ]);
     }

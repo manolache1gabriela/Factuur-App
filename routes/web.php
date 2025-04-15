@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Client;
 use Illuminate\Foundation\Application;
@@ -8,11 +9,13 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    $clients = Client::all();
+    $clients = Client::where('id', '!=', 1)->get();
     return Inertia::render('Welcome', ['clients' => $clients]);
 })->name('home');
 Route::get('/clients', [ClientController::class, 'index']);
 Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
+
+Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoice.store');
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
@@ -24,4 +27,4 @@ Route::post('/clients', [ClientController::class, 'store'])->name('clients.store
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

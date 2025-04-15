@@ -34,6 +34,7 @@ const submit = () => {
     <dialog
         ref="dialog"
         class="w-1/2 h-1/2 rounded-2xl fixed m-auto shadow-2xl border-none backdrop:bg-black/35"
+        @close="closeModal"
     >
         <div
             class="w-full h-full bg-white pt-2 px-5 relative flex flex-col md:flex-row justify-between py-2"

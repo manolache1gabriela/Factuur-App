@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Invoice extends Model
 {
     use HasFactory;
-    
+    protected $fillable = [
+        'invoice_number', 'client_id', 'data'
+    ];
+
     public function client():BelongsTo
     {
         return $this->belongsTo(Client::class);
