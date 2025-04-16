@@ -4,11 +4,17 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Client;
+use App\Models\Invoice;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+    // $invoice = Invoice::with(['client'])->find(2025031);
+    // dd($invoice->data);
+    // return view('pdfs.invoice', [
+    //     'invoice' => Invoice::with(['client'])->find(2025031)
+    // ]);
     $clients = Client::where('id', '!=', 1)->get();
     return Inertia::render('Welcome', ['clients' => $clients]);
 })->name('home');
