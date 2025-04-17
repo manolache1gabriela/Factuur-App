@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Spatie\LaravelPdf\Enums\Unit;
 use Spatie\LaravelPdf\Facades\Pdf;
 
 class InvoiceController extends Controller
@@ -22,7 +23,7 @@ class InvoiceController extends Controller
         ]);
 
         Pdf::view('pdfs.invoice', ['invoice' => Invoice::with(['client'])->find(2025031)])->format('a4')->save('../storage/app/public/pdfs/invoice.pdf');
-        $savedPdf = Pdf::view('pdfs.invoice', ['invoice' => $invoice])->format('a4')->margins()->name('invoice.pdf')->download();
+        $savedPdf = Pdf::view('pdfs.invoice', ['invoice' => $invoice])->format('a4')->margins(0, 0, 0, 0, Unit::Pixel)->name('invoice.pdf')->download();
         // return $savedPdf;
         // dd($savedPdf);
         return redirect()->back();

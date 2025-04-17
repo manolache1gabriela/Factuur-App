@@ -13,6 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"
         rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <!-- Scripts -->
 </head>
 @php
@@ -20,9 +21,9 @@
     // dump($invoice);
 @endphp
 
-<body class="min-h-[100dvh] flex flex-col justify-center gap-8 px-6 mb-2">
-    <header class="flex w-full h-1/7 justify-between items-center">
-        <div class="h-full flex flex-col justify-end gap-2 pl-1">
+<body class="min-h-[100dvh] p-6 mb-2 space-y-4">
+    <header class="flex w-full h-44 justify-between items-center">
+        <div class="h-full flex flex-col justify-center gap-2 pl-1">
             <div>
                 <h2 class="font-semibold">Popa Ionut</h2>
             </div>
@@ -36,13 +37,16 @@
             <p>BTW nr: BE 1011.068.711</p>
             <p>Iban: BE17 9734 9549 4121</p>
         </div>
-        <div class="w-1/5 h-full flex items-center justify-start">
+        <div class="h-1/2 flex items-center justify-start">
             {{-- <img src="/images/logo.svg" class="h-4/5" alt="logo"> --}}
             @php $logo = public_path('/images/logo.svg'); @endphp
-            @inlinedImage($logo)
+            {{-- @inlinedImage($logo) --}}
+            <img alt="logo"
+                src="{{ URL::asset('/images/logo.svg') }}"
+                width="176">
         </div>
     </header>
-    <section class="w-full flex h-1/8 items-center justify-end pr-6">
+    <section class="w-full flex h-28 items-center justify-end pr-6">
         <div class="flex w-1/3 justify-center gap-2">
             <span class="font-semibold">Aan:</span>
             <div class="w-full">
@@ -55,11 +59,11 @@
                 @endforeach
             </div>
     </section>
-    <main>
-        <div class="w-full h-3/4 flex flex-col px-1 items-start">
+    <main class="min-h-48">
+        <div class="w-full h-full flex flex-col px-1 items-start">
             <h1 class="w-full font-semibold text-2xl text-end pr-14 italic">Factuur</h1>
             <div
-                class="w-full h-1/7 flex items-center justify-center text-center leading-none font-semibold border-2 border-black divide-x-1 divide-black">
+                class="w-full h-1/6 flex items-center justify-center text-center leading-none font-semibold border-2 border-black divide-x-1 divide-black">
                 <div class="w-3/10 h-full flex flex-col justify-center items-center p-5"><span
                         class="block">Factuurnummer</span> {{ $invoice->id }}</div>
                 <div class="w-3/10 h-full flex flex-col justify-center items-center p-5"><span
@@ -68,10 +72,13 @@
                         class="block">Vervaldatum</span>
                     {{ $invoice->expired_at }}</div>
             </div>
-            <p class="w-full h-1/12 border-x-2 border-black px-1 text-sm font-semibold">Locatie werken: Lier</p>
-            <div class="w-full flex">
+            <p class="w-full h-1/12 border-x-2 border-black px-1 text-sm font-semibold">Locatie werken: @if (!$invoice->client->btw_number)
+                    {{ $invoice->client->address }}
+                @endif
+            </p>
+            <div class="w-full h-5/6 flex">
                 <table class="w-full h-full table-fixed">
-                    <thead class="w-full h-1/12 border-b-2 text-left text-sm border-x-2 border-t-2 border-black">
+                    <thead class="w-full h-14 border-b-2 text-left text-sm border-x-2 border-t-2 border-black">
                         <tr>
                             <th class="w-2/12 pl-1 border-r-2 border-black">Datum</th>
                             <th class="w-4/12 pl-1 border-r-2 border-black">Omschrijving</th>
@@ -82,9 +89,9 @@
                                 colspan="2">BTW % / €</th>
                         </tr>
                     </thead>
-                    <tbody class="w-full h-[300px] border-2 border-black">
+                    <tbody class="w-full min-h-[300px]">
                         @foreach ($invoice->data as $item)
-                            <tr class="w-full divide-x-1 divide-black max-h-20 h-10">
+                            <tr class="w-full divide-x-1 divide-black max-h-20 h-10 border-x-2 border-black">
                                 <td class="px-3">{{ Carbon\Carbon::create($item['date'])->format('d/m/Y') }}</td>
                                 <td class="px-3">{{ $item['service_materials'] }}</td>
                                 <td class="px-3">{{ $item['quantity'] }}</td>
@@ -94,7 +101,8 @@
                                 <td class="px-3"></td>
                             </tr>
                         @endforeach
-                        <tr class="w-full divide-x-1 divide-black">
+                        <tr
+                            class="{{ count($invoice->data) > 8 ? 'w-full border-b-2 divide-x-1 divide-black border-black border-x-2' : 'w-full h-24 divide-x-1 divide-black border-black border-x-2 border-b-2' }}">
                             <td></td>
                             <td></td>
                             <td></td>
@@ -103,9 +111,7 @@
                             <td></td>
                             <td></td>
                         </tr>
-                    </tbody>
-                    <tfoot class="k">
-                        <tr class="">
+                        <tr>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -128,22 +134,40 @@
                                 €260
                             </td>
                         </tr>
-                    </tfoot>
+                        <tr>
+                            <td class="font-semibold text-xs"
+                                colspan='6'>Opmerkingen & Voorwaarden</td>
+                        </tr>
+                        @if ($invoice->client->add_btw)
+                            <tr>
+                                <td class="font-semibold text-xs"
+                                    colspan='6'>Btw medecontractant waar je totaal van de btw berekend</td>
+                            </tr>
+                        @endif
+                        <tr>
+                            <td class="text-xs"
+                                colspan='6'>Wij verzoeken u vriendelijk het bedrag binnen 30 dagen over te maken op
+                                het
+                                rekeningnummer BE17 9734
+                                9549
+                                4121 onder vermelding van het factuurnummer. Op alle diensten zijn onze algemene
+                                voorwaarden van
+                                toepassing.
+                                Deze kan u vinden op de achterzijde.</td>
+                        </tr>
+                        {{-- <td class="font-semibold">Btw medecontractant waar je totaal van de btw berekend</td>
+                        <td>Wij verzoeken u vriendelijk het bedrag binnen 30 dagen over te maken op het
+                            rekeningnummer BE17 9734
+                            9549
+                            4121 onder vermelding van het factuurnummer. Op alle diensten zijn onze algemene
+                            voorwaarden van
+                            toepassing.
+                            Deze kan u vinden op de achterzijde.</td> --}}
+                    </tbody>
                 </table>
             </div>
         </div>
-
     </main>
-    <footer>
-        <div class="w-full h-1/8 flex flex-col justify-center items-start text-xs">
-            <p class="font-semibold">Opmerkingen & Voorwaarden</p>
-            <p class="font-semibold">Btw medecontractant waar je totaal van de btw berekend</p>
-            <p>Wij verzoeken u vriendelijk het bedrag binnen 30 dagen over te maken op het rekeningnummer BE17 9734 9549
-                4121 onder vermelding van het factuurnummer. Op alle diensten zijn onze algemene voorwaarden van
-                toepassing.
-                Deze kan u vinden op de achterzijde.</p>
-        </div>
-    </footer>
 </body>
 
 </html>

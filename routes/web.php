@@ -12,11 +12,11 @@ use Inertia\Inertia;
 Route::get('/', function () {
     // $invoice = Invoice::with(['client'])->find(2025031);
     // dd($invoice->data);
-    // return view('pdfs.invoice', [
-    //     'invoice' => Invoice::with(['client'])->find(2025031)
-    // ]);
-    $clients = Client::where('id', '!=', 1)->get();
-    return Inertia::render('Welcome', ['clients' => $clients]);
+    return view('pdfs.invoice', [
+        'invoice' => Invoice::with(['client'])->find(2025031)
+    ]);
+    // $clients = Client::where('id', '!=', 1)->get();
+    // return Inertia::render('Welcome', ['clients' => $clients]);
 })->name('home');
 Route::get('/clients', [ClientController::class, 'index']);
 Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
