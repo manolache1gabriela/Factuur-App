@@ -182,14 +182,14 @@ onMounted(() => {
                         class="h-full"
                     />
                 </div>
-                <div class="space-x-2 flex items-center">
+                <div class="w-full space-x-2 px-2 flex items-center">
                     <span class="font-bold text-lg"> Clients:</span>
                     <select
                         @change="selectCurrentClient"
                         v-model="form.currentClient"
                         name="Clients"
                         id="clients"
-                        class="px-6 py-2 bg-black/20 rounded-full text-white text-sm"
+                        class="w-3/4 px-6 py-2 bg-black/20 rounded-full text-white text-sm"
                     >
                         <option
                             v-for="client in props.clients"
@@ -314,7 +314,7 @@ onMounted(() => {
                                 v-model="invoiceClient"
                                 name="Client"
                                 id="client"
-                                class="px-3 py-2 bg-black/20 rounded-full text-white text-sm"
+                                class="px-3 py-2 w-3/4 bg-black/20 rounded-full text-white text-sm"
                             >
                                 <option
                                     v-for="client in props.clients"

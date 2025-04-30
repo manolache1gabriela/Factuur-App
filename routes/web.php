@@ -19,7 +19,7 @@ Route::get('/', function (Request $request) {
             ->orderBy('id', 'DESC')
             ->paginate(1);
     } else {
-        $invoices = Invoice::where('client_id', $clientId)->orderBy('id', 'DESC')->paginate(5);
+        $invoices = Invoice::where('client_id', $clientId)->orderBy('id', 'DESC')->paginate(1);
     }
     $clients = Client::all();
     $clients->prepend((new Client())->setId(0)->setName('All clients'));
