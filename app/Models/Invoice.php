@@ -14,8 +14,8 @@ class Invoice extends Model
     protected $fillable = [
         'invoice_number',
         'client_id',
+        'location',
         'data',
-        'location'
     ];
 
     protected $appends = ['expired_at'];

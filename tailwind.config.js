@@ -13,8 +13,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Figtree", ...defaultTheme.fontFamily.sans],
-                roboto: "Roboto",
+                spectral: "Spectral",
             },
             colors: {
                 primary: "#2fb4b3",

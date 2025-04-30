@@ -17,10 +17,10 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'=>fake()->company(),
-            'btw_number'=>fake()->randomElement(['748.909.383','715.794.870','1.015.821.216']),
-            'add_btw' => fake()->boolean(),
-            'address'=>fake()->address(),
+            'name' => fake()->company(),
+            'btw_number' => fake()->randomElement(['748.909.383', '715.794.870', '1.015.821.216']),
+            'no_btw' => fake()->boolean(),
+            'address' => fake()->address(),
         ];
     }
 }

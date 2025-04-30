@@ -15,7 +15,7 @@ const form = useForm({
     name: "",
     btw_number: "",
     address: "",
-    add_btw: "",
+    no_btw: "",
 });
 
 const submit = () => {
@@ -87,7 +87,7 @@ const submit = () => {
                         >
                             <input
                                 type="checkbox"
-                                v-model="form.add_btw"
+                                v-model="form.no_btw"
                                 class="sr-only peer"
                             />
                             <div
