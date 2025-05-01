@@ -116,17 +116,17 @@
                         @foreach ($invoice->data as $item)
                             <tr class="w-full divide-x-2 divide-black max-h-20 h-10 border-x-2 border-black">
                                 @php
-                                    $priceNoBtw = $item['price'] * $item['quantity'];
+                                    $priceNoBtw = ($item['price'] ?? 0) * ($item['quantity'] ?? 0);
                                     $totalPriceNoBtw += $priceNoBtw;
                                     $priceBtw = ($item['btw'] / 100) * $priceNoBtw;
                                     $totalPriceBtw += $priceBtw;
                                 @endphp
                                 <td class="px-1">
                                     {{ Carbon\Carbon::createFromFormat('d/m/Y', $item['date'])->format('d/m/Y') }}</td>
-                                <td class="px-1">{{ $item['service_materials'] }}</td>
-                                <td class="px-1">{{ $item['quantity'] }}</td>
+                                <td class="px-1">{{ $item['service_materials'] ?? '-' }}</td>
+                                <td class="px-1">{{ $item['quantity'] ?? 0 }}</td>
                                 <td class="px-1">
-                                    {{ Number::currency($item['price'], 'EUR', locale: 'de', precision: 2) }}</td>
+                                    {{ Number::currency($item['price'] ?? 0, 'EUR', locale: 'de', precision: 2) }}</td>
                                 <td class="px-1 border-b-[1px] border-black/30">
                                     {{ Number::currency($priceNoBtw, 'EUR', locale: 'de', precision: 2) }}</td>
                                 <td class="px-1 border-b-[1px] border-black/30">{{ $item['btw'] }}%</td>
