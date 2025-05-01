@@ -26,7 +26,6 @@ class InvoiceController extends Controller
         } else {
             $invoices = Invoice::where('client_id', $clientId)->orderBy('id', 'DESC')->paginate(10);
         }
-
         // Send the client list as well
         $clients = Client::all();
         $clients->prepend((new Client())->setId(0)->setName('All clients'));
@@ -59,9 +58,11 @@ class InvoiceController extends Controller
 
     public function downloadInvoice(Invoice $invoice)
     {
-        $filename = 'invoice_' . Carbon::now()->format('YYYY_m_d_HHii') . '.pdf';
+        $format = '%s_%s_%s_%s.pdf';
+        $clientName = str_replace(' ', '_', Client::where('id', '=', $invoice->client_id)->first()->name);
+        $filename = $invoice->id . '_factuur_' . Carbon::now()->format('YYYY_m_d_HHii') . '.pdf';
         $savedPdf = Pdf::view('pdfs.invoice', ['invoice' => $invoice])
-             ->withBrowsershot(function (Browsershot $browsershot) {
+            ->withBrowsershot(function (Browsershot $browsershot) {
                 $browsershot->noSandbox();
             })
             ->format('a4')
