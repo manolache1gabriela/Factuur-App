@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Spatie\Browsershot\Browsershot;
 use Spatie\LaravelPdf\Enums\Unit;
 use Spatie\LaravelPdf\Facades\Pdf;
 
@@ -41,6 +42,9 @@ class InvoiceController extends Controller
     {
         $filename = 'invoice_' . Carbon::now()->format('YYYY_m_d_HHii') . '.pdf';
         $savedPdf = Pdf::view('pdfs.invoice', ['invoice' => $invoice])
+             ->withBrowsershot(function (Browsershot $browsershot) {
+                $browsershot->noSandbox();
+            })
             ->format('a4')
             ->margins(0, 0, 0, 0, Unit::Pixel)
             ->name($filename);

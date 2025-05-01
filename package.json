@@ -24,6 +24,6 @@
         "@vuepic/vue-datepicker": "^11.0.2",
         "primeicons": "^7.0.0",
         "primevue": "^4.3.3",
-        "puppeteer": "^24.6.1"
+        "puppeteer": "^24.7.2"
     }
 }
