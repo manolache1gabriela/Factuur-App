@@ -15,7 +15,7 @@ const form = useForm({
     name: "",
     btw_number: "",
     address: "",
-    no_btw: "",
+    no_btw: 0,
 });
 
 const submit = () => {
