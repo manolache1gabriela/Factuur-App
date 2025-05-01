@@ -290,6 +290,7 @@ onMounted(() => {
                     <Pagination
                         @change-page="changePage"
                         :invoices="props.invoices"
+                        :currentClient="form.currentClient"
                     />
                 </div>
                 <div

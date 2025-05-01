@@ -2,20 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Inertia\Inertia;
 use Spatie\LaravelPdf\Enums\Unit;
 use Spatie\LaravelPdf\Facades\Pdf;
 
 class InvoiceController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $invoices = Invoice::all();
-        return response()->json($invoices);
+        $clientId = $request->get('client_id', null);
+        if (empty($clientId)) {
+            $invoices = Invoice::whereBetween('updated_at', [Carbon::now()->subMonth(), Carbon::now()])
+                ->with(['client'])
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+        } else {
+            $invoices = Invoice::where('client_id', $clientId)->orderBy('id', 'DESC')->paginate(10);
+        }
+
+        // Send the client list as well
+        $clients = Client::all();
+        $clients->prepend((new Client())->setId(0)->setName('All clients'));
+
+        return Inertia::render('Welcome', [
+            'clients' => $clients,
+            'invoices' => $invoices,
+            'client_id' => $clientId
+        ]);
     }
 
     public function store(Request $request)
