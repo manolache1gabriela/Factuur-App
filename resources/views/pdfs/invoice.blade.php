@@ -89,7 +89,8 @@
                         class="block">Vervaldatum</span>
                     {{ $invoice->expired_at }}</div>
             </div>
-            <p class="w-full h-1/12 border-x-2 border-black px-1 text-sm font-bold">Locatie werken: @if (!$invoice->client->btw_number)
+            <p class="w-full h-1/12 border-x-2 border-black px-1 text-sm font-bold">Locatie werken/Werf nummer:
+                @if (!$invoice->client->btw_number)
                     {{ $invoice->client->address }}
                 @else
                     {{ $invoice->location }}
@@ -151,7 +152,7 @@
                             <td class=" border-2 border-black text-right px-3">Total:</td>
                             <td class=" border-2 border-black pl-2">
                                 {{ Number::currency($totalPriceNoBtw, 'EUR', locale: 'de', precision: 2) }}</td>
-                            <td class=" border-2 border-black text-center text-sm pl-1"
+                            <td class=" border-2 border-black text-center text-md font-bold pl-1"
                                 colspan="2">
                                 @if ($invoice->client->no_btw)
                                     BTW medecontractant
@@ -196,7 +197,13 @@
                                 4121 onder vermelding van het factuurnummer. Op alle diensten zijn onze algemene
                                 voorwaarden van
                                 toepassing.
-                                Deze kan u vinden op de achterzijde.</td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs"
+                                colspan='6'>
+                                Deze kan u vinden op de achterzijde.
+                            </td>
                         </tr>
                         {{-- <td class="font-bold">Btw medecontractant waar je totaal van de btw berekend</td>
                         <td>Wij verzoeken u vriendelijk het bedrag binnen 30 dagen over te maken op het

@@ -23,7 +23,7 @@ return new class extends Migration
         });
 
 
-        DB::insert("insert into invoices (id, client_id,location, data, created_at, updated_at) values (2025027, 1, '', '[]', CURRENT_TIME, CURRENT_TIME);");
+        DB::insert("insert into invoices (id, client_id,location, data, created_at, updated_at) values (2025000, 1, '', '[]', CURRENT_TIME, CURRENT_TIME);");
         DB::delete('delete from invoices');
     }
 
