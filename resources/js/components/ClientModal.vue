@@ -15,7 +15,7 @@ const form = useForm({
     name: "",
     btw_number: "",
     address: "",
-    no_btw: 0,
+    has_btw: 0,
 });
 
 const submit = () => {
@@ -51,11 +51,11 @@ const submit = () => {
                 class="w-full p-10 space-y-3 flex flex-col justify-between"
             >
                 <p class="font-bold text-primary mt-8 text-lg">
-                    Add client's information below:
+                    Voeg hieronder de gegevens van de klant toe:
                 </p>
                 <div class="flex flex-col justify-evenly gap-3 w-5/6">
                     <div class="flex items-center justify-between w-full">
-                        <label for="client_name">Client's Name:</label>
+                        <label for="client_name">Klant Naam:</label>
                         <input
                             v-model="form.name"
                             type="text"
@@ -64,16 +64,7 @@ const submit = () => {
                         />
                     </div>
                     <div class="flex items-center justify-between w-full">
-                        <label for="client_bwt">Client's BWT number:</label>
-                        <input
-                            type="text"
-                            v-model="form.btw_number"
-                            class="bg-black/10 px-4 py-2 rounded w-2/3"
-                            placeholder="123.045.123"
-                        />
-                    </div>
-                    <div class="flex items-center justify-between w-full">
-                        <label for="client_address">Client's Address:</label>
+                        <label for="client_address">Klant adres:</label>
                         <input
                             type="text"
                             v-model="form.address"
@@ -87,7 +78,7 @@ const submit = () => {
                         >
                             <input
                                 type="checkbox"
-                                v-model="form.no_btw"
+                                v-model="form.has_btw"
                                 class="sr-only peer"
                             />
                             <div
@@ -99,12 +90,21 @@ const submit = () => {
                             >
                         </label>
                     </div>
+                    <div class="flex items-center justify-between w-full">
+                        <label for="client_bwt">Klant BWT nummer:</label>
+                        <input
+                            type="text"
+                            v-model="form.btw_number"
+                            class="bg-black/10 px-4 py-2 rounded w-2/3"
+                            placeholder="123.045.123"
+                        />
+                    </div>
                 </div>
                 <button
                     type="submit"
                     class="bg-primary self-end text-white hover:bg-black/50 rounded-2xl px-6 py-2 cursor-pointer"
                 >
-                    Save Client
+                    Opslaan
                 </button>
             </form>
         </div>

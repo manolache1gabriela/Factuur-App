@@ -182,8 +182,8 @@ onMounted(() => {
                         class="h-full"
                     />
                 </div>
-                <div class="w-full space-x-2 px-2 flex items-center">
-                    <span class="font-bold text-lg"> Clients:</span>
+                <div class="w-full space-x-2 px-2 flex flex-col items-center">
+                    <span class="font-bold text-lg"> Klanten:</span>
                     <select
                         @change="selectCurrentClient"
                         v-model="form.currentClient"
@@ -199,16 +199,34 @@ onMounted(() => {
                             {{ client.name }}
                         </option>
                     </select>
+                    <div
+                        class="w-full flex flex-col text-lg justify-center items-center"
+                        v-show="form.currentClient !== 0"
+                    >
+                        <p>
+                            BTW nummer:
+                            {{ props.clients[form.currentClient].btw_number }}
+                        </p>
+                        <p>
+                            Has BTW:
+                            {{ props.clients[form.currentClient].has_btw }}
+                        </p>
+                        <p>
+                            Addres:
+                            {{ props.clients[form.currentClient].btw_number }}
+                        </p>
+                    </div>
                 </div>
                 <div class="w-full flex flex-col items-center justify-between">
-                    <p class="text-center w-1/2 font-bold">
-                        Add new client, if not found in the select options.
+                    <p class="text-center w-1/2 font-bold mb-2">
+                        Voeg een nieuwe klant toe als deze niet in de
+                        selectieopties staat.
                     </p>
                     <button
                         class="bg-primary hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-10 rounded-full uppercase cursor-pointer"
                         @click="openModal"
                     >
-                        New Client
+                        Neuwe Klant
                     </button>
                 </div>
             </div>
@@ -231,7 +249,7 @@ onMounted(() => {
                                     class="border-r-[1px] border-black/60"
                                     v-if="canEditClient"
                                 >
-                                    Client Name
+                                    Klant Naam
                                 </th>
                             </tr>
                         </thead>
@@ -269,7 +287,7 @@ onMounted(() => {
                                     class="bg-black/25 border-r-[1px] border-black/20"
                                 >
                                     <button @click="editInvoice(invoice.id)">
-                                        Edit
+                                        Bewerking
                                     </button>
                                 </td>
                                 <td class="bg-black/25">
@@ -281,7 +299,7 @@ onMounted(() => {
                                         "
                                         target="_blank"
                                         rel="noopener"
-                                        >Download</a
+                                        >Downloaden</a
                                     >
                                 </td>
                             </tr>
@@ -298,7 +316,9 @@ onMounted(() => {
                 >
                     <div class="w-full flex items-center justify-between">
                         <div class="w-1/3 space-x-2 flex items-center">
-                            <span class="font-bold text-lg">Location:</span>
+                            <span class="font-bold text-lg"
+                                >Locatie/Werf nummer:</span
+                            >
                             <input
                                 type="text"
                                 v-model="form.location"
@@ -310,7 +330,7 @@ onMounted(() => {
                             class="w-1/3 space-x-2 flex items-center"
                             v-show="canEditClient"
                         >
-                            <span class="font-bold text-lg"> Client:</span>
+                            <span class="font-bold text-lg"> Klant:</span>
                             <select
                                 v-model="invoiceClient"
                                 name="Client"
@@ -335,14 +355,14 @@ onMounted(() => {
                                 @click="cancelUpdate"
                                 class="bg-red-300 hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-4 rounded-full uppercase cursor-pointer"
                             >
-                                Cancel
+                                Annuleren
                             </button>
                             <button
                                 v-if="currentInvoice == null"
                                 @click="print"
                                 class="bg-primary hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-10 rounded-full uppercase cursor-pointer"
                             >
-                                Save
+                                Opslaan
                             </button>
                             <button
                                 v-if="currentInvoice"

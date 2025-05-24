@@ -19,7 +19,7 @@ class ClientFactory extends Factory
         return [
             'name' => fake()->company(),
             'btw_number' => fake()->randomElement(['748.909.383', '715.794.870', '1.015.821.216']),
-            'no_btw' => fake()->boolean(),
+            'has_btw' => fake()->boolean(),
             'address' => fake()->address(),
         ];
     }

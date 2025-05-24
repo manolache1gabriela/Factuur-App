@@ -18,25 +18,25 @@ class ClientSeeder extends Seeder
             [
                 'name' => 'Calamintha',
                 'btw_number' => '748.909.383',
-                'no_btw' => true,
+                'has_btw' => true,
                 'address' => 'Eigenaarsstraat 20 bus 2, 2380 Ravels'
             ],
             [
                 'name' => 'P&O Rombouts',
                 'btw_number' => '715.794.870',
-                'no_btw' => true,
+                'has_btw' => true,
                 'address' => 'Papenvelden 16, 2370 Arendonk'
             ],
             [
                 'name' => 'TEfunderen',
                 'btw_number' => '1.015.821.216',
-                'no_btw' => true,
+                'has_btw' => true,
                 'address' => 'Eikenlaan 19, 3110 Rotselaar'
             ],
             [
                 'name' => 'Patricia Perez & Pablo Romojaro',
                 'btw_number' => '',
-                'no_btw' => false,
+                'has_btw' => false,
                 'address' => 'Koekoekstraat 105,  Mol'
             ]
         ]);

@@ -19,7 +19,7 @@ class ClientController extends Controller
             'name' => $request->name,
             'btw_number' => $request->btw_number,
             'address' => $request->address,
-            'no_btw' => $request->no_btw
+            'has_btw' => $request->has_btw
         ]);
         return redirect()->back();
     }

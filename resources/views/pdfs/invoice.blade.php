@@ -68,7 +68,7 @@
             <span class="font-bold">Aan:</span>
             <div class="w-full">
                 <p>{{ $invoice->client->name }}</p>
-                @if ($invoice->client->no_btw)
+                @if ($invoice->client->has_btw)
                     <p>BTW nr: {{ $invoice->client->btw_number }}</p>
                 @endif
                 @foreach ($arr as $item)
@@ -154,7 +154,7 @@
                                 {{ Number::currency($totalPriceNoBtw, 'EUR', locale: 'de', precision: 2) }}</td>
                             <td class=" border-2 border-black text-center text-md font-bold pl-1"
                                 colspan="2">
-                                @if ($invoice->client->no_btw)
+                                @if ($invoice->client->has_btw)
                                     BTW medecontractant
                                 @else
                                     {{ Number::currency($totalPriceBtw, 'EUR', locale: 'de', precision: 2) }}
@@ -171,7 +171,7 @@
                                 @php
                                     $totalPrice = $totalPriceNoBtw + $totalPriceBtw;
                                 @endphp
-                                @if ($invoice->client->no_btw)
+                                @if ($invoice->client->has_btw)
                                     {{ Number::currency($totalPriceNoBtw, 'EUR', locale: 'de', precision: 2) }}
                                 @else
                                     {{ Number::currency($totalPrice, 'EUR', locale: 'de', precision: 2) }}
@@ -182,7 +182,7 @@
                             <td class="font-bold text-xs"
                                 colspan='6'>Opmerkingen & Voorwaarden</td>
                         </tr>
-                        @if ($invoice->client->no_btw)
+                        @if ($invoice->client->has_btw)
                             <tr>
                                 <td class="font-bold text-xs"
                                     colspan='6'>Btw medecontractant waar je totaal van de btw berekend</td>
