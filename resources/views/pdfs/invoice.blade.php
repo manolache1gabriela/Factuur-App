@@ -155,7 +155,7 @@
                             <td class=" border-2 border-black text-center text-md font-bold pl-1"
                                 colspan="2">
                                 @if ($invoice->client->has_btw)
-                                    BTW medecontractant
+                                    BTW <br> medecontractant
                                 @else
                                     {{ Number::currency($totalPriceBtw, 'EUR', locale: 'de', precision: 2) }}
                                 @endif
