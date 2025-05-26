@@ -74,8 +74,8 @@ const addRow = () => {
 const openModalCreateClient = () => {
     modal1.value.openModalCreate();
 };
-const openModalEditClient = () => {
-    modal2.value.openModalEdit();
+const openModalEditClient = (clientId) => {
+    modal2.value.openModalEdit(props.clients[clientId]);
 };
 
 const selectCurrentClient = (e) => {
@@ -185,6 +185,9 @@ const changePage = (e) => {
 };
 
 const deleteClient = (clientId) => {
+    if (!confirm("Weet je het zeker?")) {
+        return;
+    }
     router.delete(route("clients.delete", { client: clientId }), {
         onSuccess: () => {
             router.visit(route("home"), {
@@ -277,7 +280,7 @@ onMounted(() => {
                 >
                     <button
                         class="bg-primary hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-10 rounded-full uppercase cursor-pointer"
-                        @click="openModalEditClient"
+                        @click="openModalEditClient(form.currentClient)"
                     >
                         Klant Bewerken
                     </button>

@@ -1,27 +1,33 @@
 <script setup>
 import { ref } from "vue";
 import { useForm, router } from "@inertiajs/vue3";
-let props = defineProps(["showModalCreate"]);
-let dialog1 = ref(null);
-const openModalCreate = () => {
-    dialog1.value.showModal();
+let props = defineProps(["showModalEdit"]);
+let dialog2 = ref(null);
+const openModalEdit = (client) => {
+    form.name = client.name;
+    form.btw_number = client.btw_number;
+    form.address = client.address;
+    form.has_btw = client.has_btw;
+    form.id = client.id;
+    dialog2.value.showModal();
 };
-const closeModalCreate = () => {
-    dialog1.value.close();
+const closeModalEdit = () => {
+    dialog2.value.close();
 };
-defineExpose({ openModalCreate });
+defineExpose({ openModalEdit });
 
 const form = useForm({
     name: "",
     btw_number: "",
     address: "",
     has_btw: 0,
+    id: 0,
 });
 
 const submit = () => {
-    router.post(route("clients.store"), form, {
+    router.put(route("clients.update", { client: form.id }), form, {
         onSuccess: () => {
-            closeModal();
+            closeModalEdit();
         },
         onError: () => {
             console.log("error");
@@ -32,16 +38,16 @@ const submit = () => {
 
 <template>
     <dialog
-        ref="dialog1"
+        ref="dialog2"
         class="w-1/2 h-1/2 rounded-2xl fixed m-auto shadow-2xl border-none backdrop:bg-black/35"
-        @close="closeModalCreate"
+        @close="closeModalEdit"
     >
         <div
             class="w-full h-full bg-white pt-2 px-5 relative flex flex-col md:flex-row justify-between py-2"
         >
             <button
                 class="absolute top-4 right-4 text-gray-500 cursor-pointer"
-                @click="closeModalCreate"
+                @click="closeModalEdit"
             >
                 <i class="pi pi-times-circle" style="font-size: 1.5rem"></i>
             </button>
@@ -50,9 +56,7 @@ const submit = () => {
                 @submit.prevent="submit"
                 class="w-full p-10 space-y-3 flex flex-col justify-between"
             >
-                <p class="font-bold text-primary mt-8 text-lg">
-                    Voeg hieronder de gegevens van de klant toe:
-                </p>
+                <p class="font-bold text-primary mt-8 text-lg">Heloooooo</p>
                 <div class="flex flex-col justify-evenly gap-3 w-5/6">
                     <div class="flex items-center justify-between w-full">
                         <label for="client_name">Klant Naam:</label>

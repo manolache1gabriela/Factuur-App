@@ -24,7 +24,19 @@ class ClientController extends Controller
         return redirect()->back();
     }
 
+    public function update(Request $request, Client $client)
+    {
 
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'btw_number' => 'required|string',
+            'address' => 'required|string',
+            'has_btw' => 'required|boolean'
+        ]);
+        $client->update($validated);
+
+        return redirect()->back();
+    }
 
     public function delete(Client $client)
     {

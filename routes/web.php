@@ -8,7 +8,7 @@ Route::get('/', [InvoiceController::class, 'index'])->name('home');
 
 Route::get('/clients', [ClientController::class, 'index']);
 Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
-Route::put('/clients', [ClientController::class, 'update'])->name('clients.update');
+Route::put('/clients/{client}', [ClientController::class, 'update'])->name('clients.update');
 Route::delete('/clients/{client}', [ClientController::class, 'delete'])->name('clients.delete');
 
 Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoice.store');
