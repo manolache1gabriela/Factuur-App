@@ -32,28 +32,36 @@ let form = ref({
 });
 
 const print = () => {
-    router.post(route("invoice.store"), form.value, {
-        onSuccess: (response) => {
-            rowsData.value = [Object.assign({}, data)];
-            form.value = {
-                currentClient: form.value.currentClient,
-                location: "",
-                rows: rowsData.value,
-            };
-            router.visit(
-                route("home", {
-                    client_id: form.value.currentClient,
-                }),
-                {
-                    preserveState: true,
-                    only: ["invoices"],
-                }
-            );
+    router.post(
+        route("invoice.store"),
+        {
+            currentClient: form.value.currentClient,
+            location: form.value.location,
+            rows: rowsData.value,
         },
-        onError: (error) => {
-            console.log(error);
-        },
-    });
+        {
+            onSuccess: (response) => {
+                rowsData.value = [Object.assign({}, data)];
+                form.value = {
+                    currentClient: form.value.currentClient,
+                    location: "",
+                    rows: rowsData.value,
+                };
+                router.visit(
+                    route("home", {
+                        client_id: form.value.currentClient,
+                    }),
+                    {
+                        preserveState: true,
+                        only: ["invoices"],
+                    }
+                );
+            },
+            onError: (error) => {
+                console.log(error);
+            },
+        }
+    );
 };
 
 const addRow = () => {
@@ -86,6 +94,13 @@ const selectCurrentClient = (e) => {
 let canEditClient = computed(() => {
     return form.value.currentClient === 0;
 });
+
+let editInAllClients = computed(() => {
+    if (form.value.currentClient !== 0 || currentInvoice.value !== null) {
+        return true;
+    }
+    return false;
+});
 let currentInvoice = ref(null);
 
 const editInvoice = (invoiceId) => {
@@ -94,7 +109,6 @@ const editInvoice = (invoiceId) => {
     form.value.location = invoice.location;
     rowsData.value = invoice.data;
     form.value.rows = rowsData.value;
-    console.log(invoice);
     if (form.value.currentClient == 0) {
         invoiceClient.value = invoice.client.id;
     }
@@ -204,16 +218,20 @@ onMounted(() => {
                         v-show="form.currentClient !== 0"
                     >
                         <p>
+                            Addres:
+                            {{ props.clients[form.currentClient].address }}
+                        </p>
+                        <p v-if="props.clients[form.currentClient].btw_number">
                             BTW nummer:
                             {{ props.clients[form.currentClient].btw_number }}
                         </p>
                         <p>
-                            Has BTW:
-                            {{ props.clients[form.currentClient].has_btw }}
-                        </p>
-                        <p>
-                            Addres:
-                            {{ props.clients[form.currentClient].btw_number }}
+                            Heeft BTW:
+                            {{
+                                props.clients[form.currentClient].has_btw == 1
+                                    ? "Ja"
+                                    : "Nee"
+                            }}
                         </p>
                     </div>
                 </div>
@@ -281,7 +299,7 @@ onMounted(() => {
                                     v-if="canEditClient"
                                     class="border-r-[1px] border-black/20"
                                 >
-                                    {{ invoice.client.name }}
+                                    {{ invoice.client?.name }}
                                 </td>
                                 <td
                                     class="bg-black/25 border-r-[1px] border-black/20"
@@ -312,82 +330,97 @@ onMounted(() => {
                     />
                 </div>
                 <div
-                    class="bg-black/10 border-2 overflow-scroll p-7 border-black/50 shadow-2xl/30 rounded-xl h-3/5 w-full flex flex-col items-center gap-4"
+                    class="bg-black/10 border-2 border-black/50 shadow-2xl/30 rounded-xl h-3/5 w-full"
                 >
-                    <div class="w-full flex items-center justify-between">
-                        <div class="w-1/3 space-x-2 flex items-center">
-                            <span class="font-bold text-lg"
-                                >Locatie/Werf nummer:</span
-                            >
-                            <input
-                                type="text"
-                                v-model="form.location"
-                                class="w-full px-4 py-2 bg-black/20 rounded-full text-white text-sm"
-                                placeholder="Gasthuisstraat 1, 2400 Mol"
-                            />
-                        </div>
-                        <div
-                            class="w-1/3 space-x-2 flex items-center"
-                            v-show="canEditClient"
-                        >
-                            <span class="font-bold text-lg"> Klant:</span>
-                            <select
-                                v-model="invoiceClient"
-                                name="Client"
-                                id="client"
-                                class="px-3 py-2 w-3/4 bg-black/20 rounded-full text-white text-sm"
-                            >
-                                <option
-                                    v-for="client in props.clients"
-                                    :key="client.id"
-                                    :value="client.id"
-                                    :disabled="client.id === 0"
-                                >
-                                    {{ client.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div
-                            class="flex items-center justify-between text-sm w-1/4"
-                        >
-                            <button
-                                v-if="currentInvoice"
-                                @click="cancelUpdate"
-                                class="bg-red-300 hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-4 rounded-full uppercase cursor-pointer"
-                            >
-                                Annuleren
-                            </button>
-                            <button
-                                v-if="currentInvoice == null"
-                                @click="print"
-                                class="bg-primary hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-10 rounded-full uppercase cursor-pointer"
-                            >
-                                Opslaan
-                            </button>
-                            <button
-                                v-if="currentInvoice"
-                                @click="updateInvoice"
-                                class="bg-primary hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-4 rounded-full uppercase cursor-pointer"
-                            >
-                                Update
-                            </button>
-                        </div>
-                    </div>
-                    <InvoiceRow
-                        v-for="(row, index) in rowsData"
-                        :key="index"
-                        :index="index"
-                        :row="row"
-                    />
                     <div
-                        class="w-full h-12 rounded-lg bg-stripes bg-cover bg-no-repeat opacity-30"
-                    ></div>
-                    <button
-                        class="bg-black/20 rounded-lg cursor-pointer w-full flex justify-center items-center py-2"
-                        @click="addRow"
+                        v-show="editInAllClients"
+                        class="w-full h-full flex flex-col items-center gap-4 p-7 overflow-scroll"
                     >
-                        <i class="pi pi-plus" style="font-weight: 900"></i>
-                    </button>
+                        <div class="w-full flex items-center justify-between">
+                            <div class="w-1/3 space-x-2 flex items-center">
+                                <span class="font-bold text-lg"
+                                    >Locatie/Werf nummer:</span
+                                >
+                                <input
+                                    type="text"
+                                    v-model="form.location"
+                                    class="w-full px-4 py-2 bg-black/20 rounded-full text-white text-sm"
+                                    placeholder="Gasthuisstraat 1, 2400 Mol"
+                                />
+                            </div>
+                            <div
+                                class="w-1/3 space-x-2 flex items-center"
+                                v-show="canEditClient"
+                            >
+                                <span class="font-bold text-lg"> Klant:</span>
+                                <select
+                                    v-model="invoiceClient"
+                                    name="Client"
+                                    id="client"
+                                    class="px-3 py-2 w-3/4 bg-black/20 rounded-full text-white text-sm"
+                                >
+                                    <option
+                                        v-for="client in props.clients"
+                                        :key="client.id"
+                                        :value="client.id"
+                                        :disabled="client.id === 0"
+                                    >
+                                        {{ client.name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div
+                                class="flex items-center justify-between text-sm w-1/4"
+                            >
+                                <button
+                                    v-if="currentInvoice"
+                                    @click="cancelUpdate"
+                                    class="bg-red-300 hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-4 rounded-full uppercase cursor-pointer"
+                                >
+                                    Annuleren
+                                </button>
+                                <button
+                                    v-if="currentInvoice == null"
+                                    @click="print"
+                                    class="bg-primary hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-10 rounded-full uppercase cursor-pointer"
+                                >
+                                    Opslaan
+                                </button>
+                                <button
+                                    v-if="currentInvoice"
+                                    @click="updateInvoice"
+                                    class="bg-primary hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-4 rounded-full uppercase cursor-pointer"
+                                >
+                                    Update
+                                </button>
+                            </div>
+                        </div>
+                        <InvoiceRow
+                            v-for="(row, index) in rowsData"
+                            :key="index"
+                            :index="index"
+                            :row="row"
+                        />
+                        <div
+                            class="w-full h-12 rounded-lg bg-stripes bg-cover bg-no-repeat opacity-30"
+                        ></div>
+                        <button
+                            class="bg-black/20 rounded-lg cursor-pointer w-full bottom-0 flex justify-center items-center py-2"
+                            @click="addRow"
+                        >
+                            <i class="pi pi-plus" style="font-weight: 900"></i>
+                        </button>
+                    </div>
+                    <div
+                        v-show="!editInAllClients"
+                        class="w-full h-full flex justify-center items-center"
+                    >
+                        <p class="w-2/3 text-2xl text-center font-semibold">
+                            Selecteer een klant om een factuur te maken. <br />
+                            U kunt een factuur ook bewerken of downloaden uit de
+                            bovenstaande lijst.
+                        </p>
+                    </div>
                 </div>
             </div>
         </main>
