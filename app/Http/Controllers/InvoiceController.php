@@ -26,7 +26,7 @@ class InvoiceController extends Controller
         } else {
             $invoices = Invoice::where('client_id', $clientId)->orderBy('id', 'DESC')->paginate(10);
         }
-        $clients = Client::all();
+        $clients = Client::where('deleted', false)->get();
         $clients->prepend((new Client())->setId(0)->setName('All clients'));
 
         return Inertia::render('Welcome', [

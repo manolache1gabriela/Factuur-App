@@ -1,12 +1,16 @@
 <script setup>
 import { router, usePage } from "@inertiajs/vue3";
 import ClientModal from "../components/ClientModal.vue";
+import EditClientModal from "../components/EditClientModal.vue";
 import InvoiceRow from "../components/InvoiceRow.vue";
 import { ref, computed, onMounted } from "vue";
 import Pagination from "./Pagination.vue";
 const props = defineProps(["clients", "invoices"]);
-let showModal = ref(false);
-let modal = ref(null);
+let showModalCreate = ref(false);
+let showModalEdit = ref(false);
+let modal1 = ref(null);
+let modal2 = ref(null);
+let currentInvoice = ref(null);
 let invoiceClient = ref(null);
 let rowsData = ref([
     {
@@ -67,8 +71,11 @@ const print = () => {
 const addRow = () => {
     rowsData.value.push(Object.assign({}, data));
 };
-const openModal = () => {
-    modal.value.openModal();
+const openModalCreateClient = () => {
+    modal1.value.openModalCreate();
+};
+const openModalEditClient = () => {
+    modal2.value.openModalEdit();
 };
 
 const selectCurrentClient = (e) => {
@@ -101,7 +108,6 @@ let editInAllClients = computed(() => {
     }
     return false;
 });
-let currentInvoice = ref(null);
 
 const editInvoice = (invoiceId) => {
     currentInvoice.value = invoiceId;
@@ -178,6 +184,21 @@ const changePage = (e) => {
     );
 };
 
+const deleteClient = (clientId) => {
+    router.delete(route("clients.delete", { client: clientId }), {
+        onSuccess: () => {
+            router.visit(route("home"), {
+                preserveState: true,
+                only: ["clients", "invoices"],
+            });
+            form.value.currentClient = 0;
+        },
+        onError: (errors) => {
+            console.log(errors);
+        },
+    });
+};
+
 onMounted(() => {
     form.value.currentClient = usePage().props.client_id || 0;
 });
@@ -197,7 +218,7 @@ onMounted(() => {
                     />
                 </div>
                 <div class="w-full space-x-2 px-2 flex flex-col items-center">
-                    <span class="font-bold text-lg"> Klanten:</span>
+                    <span class="font-bold text-3xl mb-2"> Klanten:</span>
                     <select
                         @change="selectCurrentClient"
                         v-model="form.currentClient"
@@ -214,7 +235,7 @@ onMounted(() => {
                         </option>
                     </select>
                     <div
-                        class="w-full flex flex-col text-lg justify-center items-center"
+                        class="w-full flex flex-col text-lg justify-center items-center mt-2"
                         v-show="form.currentClient !== 0"
                     >
                         <p>
@@ -235,16 +256,36 @@ onMounted(() => {
                         </p>
                     </div>
                 </div>
-                <div class="w-full flex flex-col items-center justify-between">
+                <div
+                    class="w-full flex flex-col items-center justify-between"
+                    v-show="form.currentClient == 0"
+                >
                     <p class="text-center w-1/2 font-bold mb-2">
                         Voeg een nieuwe klant toe als deze niet in de
                         selectieopties staat.
                     </p>
                     <button
                         class="bg-primary hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-10 rounded-full uppercase cursor-pointer"
-                        @click="openModal"
+                        @click="openModalCreateClient"
                     >
-                        Neuwe Klant
+                        Nieuwe Klant
+                    </button>
+                </div>
+                <div
+                    class="w-2/3 flex items-center justify-between text-xs"
+                    v-show="form.currentClient !== 0"
+                >
+                    <button
+                        class="bg-primary hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-10 rounded-full uppercase cursor-pointer"
+                        @click="openModalEditClient"
+                    >
+                        Klant Bewerken
+                    </button>
+                    <button
+                        @click="deleteClient(form.currentClient)"
+                        class="bg-red-400 hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-8 rounded-full uppercase cursor-pointer"
+                    >
+                        Klant Verwijderen
                     </button>
                 </div>
             </div>
@@ -424,7 +465,8 @@ onMounted(() => {
                 </div>
             </div>
         </main>
-        <ClientModal :show-modal="showModal" ref="modal" />
+        <ClientModal :show-modal-create="showModalCreate" ref="modal1" />
+        <EditClientModal :show-modal-edit="showModalEdit" ref="modal2" />
         <footer>
             <p class="text-xs font-bold pb-1">
                 Copyright © {{ new Date().getFullYear() }}. All rights are

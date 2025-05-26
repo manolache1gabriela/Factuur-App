@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('btw_number')->unique()->nullable();
             $table->boolean('has_btw')->default(false);
             $table->string('address');
+            $table->boolean('deleted')->default(false);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });

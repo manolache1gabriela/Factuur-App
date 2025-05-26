@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Client extends Model
 {
     /** @use HasFactory<\Database\Factories\ClientFactory> */
-    protected $fillable = ['name', 'address', 'btw_number', 'has_btw'];
+    protected $fillable = ['name', 'address', 'btw_number', 'has_btw', 'deleted'];
     use HasFactory;
     public function invoice(): HasMany
     {

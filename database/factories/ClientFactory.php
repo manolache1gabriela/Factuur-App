@@ -21,6 +21,7 @@ class ClientFactory extends Factory
             'btw_number' => fake()->randomElement(['748.909.383', '715.794.870', '1.015.821.216']),
             'has_btw' => fake()->boolean(),
             'address' => fake()->address(),
+            'deleted' => fake()->boolean()
         ];
     }
 }
