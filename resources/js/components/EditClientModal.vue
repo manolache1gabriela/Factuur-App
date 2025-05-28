@@ -56,7 +56,9 @@ const submit = () => {
                 @submit.prevent="submit"
                 class="w-full p-10 space-y-3 flex flex-col justify-between"
             >
-                <p class="font-bold text-primary mt-8 text-lg">Heloooooo</p>
+                <p class="font-bold text-primary mt-8 text-lg">
+                    U kunt hieronder alle informatie over de klant bewerken.
+                </p>
                 <div class="flex flex-col justify-evenly gap-3 w-5/6">
                     <div class="flex items-center justify-between w-full">
                         <label for="client_name">Klant Naam:</label>

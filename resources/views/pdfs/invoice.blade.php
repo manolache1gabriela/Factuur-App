@@ -42,17 +42,18 @@
     <header class="flex w-full h-44 justify-between items-center">
         <div class="h-full flex flex-col justify-center gap-2 pl-1">
             <div>
-                <h2 class="font-bold">Popa Ionut</h2>
+                <h2 class="font-bold">IPW</h2>
             </div>
             <div>
                 <p>Hofstraat 17, 2480 Dessel </p>
                 <p>Tel: 0032467864650 </p>
                 <p>Email: info@ipwerken.be</p>
+                <p>Contactpersoon: Popa Ionut</p>
             </div>
         </div>
         <div class="font-bold flex flex-col justify-center gap-3 h-full items-end">
-            <p>BTW nr: BE 1011.068.711</p>
-            <p>Iban: BE17 9734 9549 4121</p>
+            <p>BTW nr: BE 1023.553.007</p>
+            <p>Iban: BE14 9735 2480 4083</p>
         </div>
         <div class="h-1/2 flex items-center justify-start">
             {{-- <img src="/images/logo.svg" class="h-4/5" alt="logo"> --}}
@@ -131,7 +132,12 @@
                                 <td class="px-1 border-b-[1px] border-black/30">
                                     {{ Number::currency($priceNoBtw, 'EUR', locale: 'de', precision: 2) }}</td>
                                 <td class="px-1 border-b-[1px] border-black/30">{{ $item['btw'] }}%</td>
-                                <td class="px-1">{{ Number::currency($priceBtw, 'EUR', locale: 'de', precision: 2) }}
+                                <td class="px-1">
+                                    @if ($invoice->client->has_btw)
+                                        &nbsp;
+                                    @else
+                                        {{ Number::currency($priceBtw, 'EUR', locale: 'de', precision: 2) }}
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -191,10 +197,8 @@
                         <tr>
                             <td class="text-xs"
                                 colspan='6'>Wij verzoeken u vriendelijk het bedrag binnen 30 dagen over te maken op
-                                het
-                                rekeningnummer BE17 9734
-                                9549
-                                4121 onder vermelding van het factuurnummer. Op alle diensten zijn onze algemene
+                                het rekeningnummer BE14 9735 2480 4083
+                                onder vermelding van het factuurnummer. Op alle diensten zijn onze algemene
                                 voorwaarden van
                                 toepassing.
                             </td>
