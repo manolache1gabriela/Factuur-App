@@ -245,17 +245,9 @@ onMounted(() => {
                             Addres:
                             {{ props.clients[form.currentClient].address }}
                         </p>
-                        <p v-if="props.clients[form.currentClient].btw_number">
+                        <p v-if="props.clients[form.currentClient].has_btw">
                             BTW nummer:
                             {{ props.clients[form.currentClient].btw_number }}
-                        </p>
-                        <p>
-                            Heeft BTW:
-                            {{
-                                props.clients[form.currentClient].has_btw == 1
-                                    ? "Ja"
-                                    : "Nee"
-                            }}
                         </p>
                     </div>
                 </div>
