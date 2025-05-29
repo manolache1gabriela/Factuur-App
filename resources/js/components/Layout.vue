@@ -411,7 +411,7 @@ onMounted(() => {
                                 <button
                                     v-if="currentInvoice"
                                     @click="cancelUpdate"
-                                    class="bg-red-300 hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-4 rounded-full uppercase cursor-pointer"
+                                    class="bg-red-700 hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-4 rounded-full uppercase cursor-pointer"
                                 >
                                     Annuleren
                                 </button>
