@@ -15,32 +15,12 @@ class ClientSeeder extends Seeder
     public function run(): void
     {
         DB::table('clients')->insert([
+
             [
-                'name' => 'Calamintha',
-                'btw_number' => '748.909.383',
+                'name' => 'IPW',
+                'btw_number' => '1023.553.007',
                 'has_btw' => true,
-                'address' => 'Eigenaarsstraat 20 bus 2, 2380 Ravels',
-                'deleted' => false
-            ],
-            [
-                'name' => 'P&O Rombouts',
-                'btw_number' => '715.794.870',
-                'has_btw' => true,
-                'address' => 'Papenvelden 16, 2370 Arendonk',
-                'deleted' => false
-            ],
-            [
-                'name' => 'TEfunderen',
-                'btw_number' => '1.015.821.216',
-                'has_btw' => true,
-                'address' => 'Eikenlaan 19, 3110 Rotselaar',
-                'deleted' => false
-            ],
-            [
-                'name' => 'Patricia Perez & Pablo Romojaro',
-                'btw_number' => '',
-                'has_btw' => false,
-                'address' => 'Koekoekstraat 105,  Mol',
+                'address' => 'Hofstraat 17, 2480 Dessel',
                 'deleted' => false
             ]
         ]);
