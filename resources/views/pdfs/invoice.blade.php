@@ -20,7 +20,7 @@
     $arr = explode(',', $invoice->client->address);
 @endphp
 
-<body class="min-h-[100dvh] p-6 mb-2 space-y-4 font-spectral text-black bg-icon">
+<body class="min-h-[100dvh] p-6 mb-2 space-y-4 font-marcellus text-black bg-icon">
     <div class="absolute top-72 left-28 w-full z-[-1]">
         <?xml version="1.0" encoding="UTF-8"?>
         <svg height="777"

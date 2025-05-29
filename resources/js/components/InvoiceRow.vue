@@ -11,7 +11,7 @@ const startDate = ref(new Date());
     --dp-text-color: white;
     --dp-background-color: rgb(0 0 0 / 0.2);
     --dp-border-color: #ddd;
-    --dp-font-family: "Spectral";
+    --dp-font-family: "marcellus";
     --dp-border-radius: 8px;
     --dp-input-padding: 8px 20px 8px 20px;
     --dp-cell-padding: 0;

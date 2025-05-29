@@ -13,7 +13,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                spectral: "Spectral",
+                marcellus: "Marcellus",
             },
             colors: {
                 primary: "#F05605",
