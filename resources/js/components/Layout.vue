@@ -278,7 +278,7 @@ onMounted(() => {
                     </button>
                     <button
                         @click="deleteClient(form.currentClient)"
-                        class="bg-red-400 hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-8 rounded-full uppercase cursor-pointer"
+                        class="bg-red-700 hover:bg-gray-500 border-2 border-gray-500 text-white py-2 px-8 rounded-full uppercase cursor-pointer"
                     >
                         Klant Verwijderen
                     </button>

@@ -16,7 +16,7 @@ export default {
                 spectral: "Spectral",
             },
             colors: {
-                primary: "#2fb4b3",
+                primary: "#F05605",
             },
             backgroundImage: {
                 stripes: "url('/resources/images/stripes.jpg')",

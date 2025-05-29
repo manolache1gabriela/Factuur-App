@@ -8,13 +8,13 @@
 
 * {
     scrollbar-width: none;
-    outline-color: #2fb4b3;
+    outline-color: #f05605;
 }
 *:focus {
-    outline: #2fb4b3;
-    border: 1px solid #2fb4b3;
-    -webkit-box-shadow: 0px 0px 5px #2fb4b3;
-    box-shadow: 0px 0px 5px #2fb4b3;
+    outline: #f05605;
+    border: 1px solid #f05605;
+    -webkit-box-shadow: 0px 0px 5px #f05605;
+    box-shadow: 0px 0px 5px #f05605;
 }
 html {
     min-height: 100dvh;
