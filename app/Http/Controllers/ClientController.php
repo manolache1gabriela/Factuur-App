@@ -15,12 +15,18 @@ class ClientController extends Controller
 
     public function store(Request $request)
     {
-        $client = Client::create([
-            'name' => $request->name,
-            'btw_number' => $request->btw_number,
-            'address' => $request->address,
-            'has_btw' => $request->has_btw
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'btw_number' => 'exclude_unless:has_btw,true|required|string',
+            'address' => 'required|string',
+            'has_btw' => 'required|boolean'
         ]);
+        if (!$validated['has_btw']) {
+            $validated['btw_number'] = null;
+        }
+
+        $client = Client::create($validated);
+
         return redirect()->back();
     }
 
@@ -29,10 +35,15 @@ class ClientController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string',
-            'btw_number' => 'required|string',
+            'btw_number' => 'exclude_unless:has_btw,true|required|string',
             'address' => 'required|string',
             'has_btw' => 'required|boolean'
         ]);
+
+        if (!$validated['has_btw']) {
+            $validated['btw_number'] = null;
+        }
+
         $client->update($validated);
 
         return redirect()->back();
@@ -44,6 +55,6 @@ class ClientController extends Controller
         $client->update([
             'deleted' => true
         ]);
-        return redirect()->back();
+        return redirect('/');
     }
 }
