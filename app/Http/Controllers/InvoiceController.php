@@ -56,9 +56,9 @@ class InvoiceController extends Controller
 
     public function downloadInvoice(Invoice $invoice)
     {
-        // $format = '%s_%s_%s_%s.pdf';
-        // $clientName = str_replace(' ', '_', Client::where('id', '=', $invoice->client_id)->first()->name);
-        $filename = $invoice->id . '_factuur_' . Carbon::now()->format('YYYY_m_d_HHii') . '.pdf';
+        $clientName = str_replace(' ', '_', $invoice->client->name);
+
+        $filename = strtolower($invoice->id . '_factuur_' . $clientName . '_' . Carbon::now()->format('Y_m_d_H:i') . '.pdf');
         $savedPdf = Pdf::view('pdfs.invoice', ['invoice' => $invoice])
             ->withBrowsershot(function (Browsershot $browsershot) {
                 $browsershot->noSandbox();
