@@ -202,6 +202,10 @@ const deleteClient = (clientId) => {
     });
 };
 
+let canDeleteRows = computed(() => {
+    return rowsData.value.length > 1;
+});
+
 onMounted(() => {
     form.value.currentClient = usePage().props.client_id || 0;
 });
@@ -436,6 +440,8 @@ onMounted(() => {
                             :key="index"
                             :index="index"
                             :row="row"
+                            :can-delete="canDeleteRows"
+                            @delete-row="rowsData.splice(index, 1)"
                         />
                         <div
                             class="w-full h-12 rounded-lg bg-stripes bg-cover bg-no-repeat opacity-30"
