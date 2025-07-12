@@ -1,10 +1,19 @@
 <script setup>
-import { ref } from "vue";
+import {ref, computed} from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
-let props = defineProps(["row", "index"]);
+let props = defineProps(["row", "index", "canDelete"]);
 const startDate = ref(new Date());
+let emit = defineEmits(["deleteRow"]);
+
+let showDeleteButton = computed(() => {
+    return props.canDelete;
+});
+
+let deleteRow = () => {
+    emit("deleteRow", props.index);
+};
 </script>
 <style scoped>
 .dp__theme_light {
@@ -33,6 +42,7 @@ select {
                 model-type="dd/MM/yyyy"
                 :placeholder="startDate.toLocaleDateString('en-GB')"
                 auto-apply
+                :teleport="true"
             />
         </div>
         <input
@@ -69,5 +79,8 @@ select {
             <option value="21">21%</option>
             <option value="6">6%</option>
         </select>
+        <button v-if="showDeleteButton" class="bg-red-500 px-2 py-1 rounded cursor" @click="deleteRow">
+            <span>&#x2715;</span>
+        </button>
     </div>
 </template>

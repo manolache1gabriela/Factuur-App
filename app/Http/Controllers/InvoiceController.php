@@ -19,7 +19,7 @@ class InvoiceController extends Controller
     {
         $clientId = $request->get('client_id', null);
         if (empty($clientId)) {
-            $invoices = Invoice::whereBetween('updated_at', [Carbon::now()->subMonth(), Carbon::now()])
+            $invoices = Invoice::whereBetween('updated_at', [Carbon::today()->subMonth()->startOfDay(), Carbon::today()->endOfDay()])
                 ->with(['client'])
                 ->orderBy('id', 'DESC')
                 ->paginate(10);
