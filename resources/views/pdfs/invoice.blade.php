@@ -203,12 +203,21 @@
                                 toepassing.
                             </td>
                         </tr>
-                        <tr>
+                         <tr>
                             <td class="text-xs"
-                                colspan='6'>
-                                Deze kan u vinden op de achterzijde.
+                                colspan='6'>Verlegging van heffin(KB 26.10.2022, BS 10.11.2022, ed2, 10.11.2022, art. 13). Bij gebrek aan een scriftelijke betwisting
+                                binnen een termijn van een maand vanaf de ontvangst van de factuur, wordt de klant geacht te erkennen dat hij een belastingplichtige
+                                is gehouden tot de indiening van periodieke aangiften. Wanneer deze voorwaarde niet is voldaan, zal het normale btw-tarief van 21%
+                                van toepassing zijn een is de afnemer ten aanzien van die voorwarden aansprakelijk voor de betaling van de verschuldigde belasting, interesten
+                                en geldboeten.
                             </td>
                         </tr>
+{{--                        <tr>--}}
+{{--                            <td class="text-xs"--}}
+{{--                                colspan='6'>--}}
+{{--                                Deze kan u vinden op de achterzijde.--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
                         {{-- <td class="font-bold">Btw medecontractant waar je totaal van de btw berekend</td>
                         <td>Wij verzoeken u vriendelijk het bedrag binnen 30 dagen over te maken op het
                             rekeningnummer BE17 9734
